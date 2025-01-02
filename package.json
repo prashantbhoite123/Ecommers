@@ -26,6 +26,7 @@
     "@wix/media": "^1.0.140",
     "@wix/members": "^1.0.145",
     "@wix/redirects": "^1.0.70",
+    "@wix/reviews": "^1.0.47",
     "@wix/sdk": "^1.15.7",
     "@wix/stores": "^1.0.330",
     "class-variance-authority": "^0.7.1",
