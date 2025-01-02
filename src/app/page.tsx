@@ -8,6 +8,8 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { getCollectionBySlug } from "@/wix-api/collections";
+import { queryProducts } from "@/wix-api/Products";
 
 const Home = () => {
   return (
@@ -50,18 +52,15 @@ const FeaturedProducts = async () => {
 
   const wixLCient = getWixClient();
 
-  const { collection } =
-    await wixLCient.collections.getCollectionBySlug("featured-products");
+  const collection = await getCollectionBySlug("featured-products");
 
   if (!collection?._id) {
     return null;
   }
 
-  const featuredProducts = await wixLCient.products
-    .queryProducts()
-    .hasSome("collectionIds", [collection._id])
-    .descending("lastUpdated")
-    .find();
+  const featuredProducts = await queryProducts({
+    collectionIds: collection._id,
+  });
 
   if (!featuredProducts.items.length) {
     return null;
@@ -74,8 +73,6 @@ const FeaturedProducts = async () => {
           <Product key={product._id} product={product} />
         ))}
       </div>
-
-      <pre>{JSON.stringify(featuredProducts, null, 2)}</pre>
     </div>
   );
 };
